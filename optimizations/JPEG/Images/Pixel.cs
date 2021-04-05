@@ -3,28 +3,34 @@ using System.Linq;
 
 namespace JPEG.Images
 {
-    public class Pixel
+    public struct Pixel
     {
         private readonly PixelFormat format;
 
         public Pixel(double firstComponent, double secondComponent, double thirdComponent, PixelFormat pixelFormat)
         {
-            if (pixelFormat != PixelFormat.RGB && pixelFormat != PixelFormat.YCbCr)
-                throw new FormatException("Unknown pixel format: " + pixelFormat);
-            format = pixelFormat;
             if (pixelFormat == PixelFormat.RGB)
             {
                 r = firstComponent;
                 g = secondComponent;
                 b = thirdComponent;
+                y = 0;
+                cb = 0;
+                cr = 0;
             }
-
-            if (pixelFormat == PixelFormat.YCbCr)
+            else if (pixelFormat == PixelFormat.YCbCr)
             {
                 y = firstComponent;
                 cb = secondComponent;
                 cr = thirdComponent;
+                r = 0;
+                g = 0;
+                b = 0;
             }
+            else
+                throw new FormatException("Unknown pixel format: " + pixelFormat);
+
+            format = pixelFormat;
         }
 
         private readonly double r;
