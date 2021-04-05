@@ -37,17 +37,19 @@ namespace JPEG
 
         public static void IDCT2D(double[,] coeffs, double[,] output)
         {
-            Parallel.For(0, coeffs.GetLength(1), x =>
+            var height = coeffs.GetLength(0);
+            var width = coeffs.GetLength(1);
+            Parallel.For(0, width, x =>
             {
-                for (var y = 0; y < coeffs.GetLength(0); y++)
+                for (var y = 0; y < height; y++)
                 {
                     var sum = 0.0;
-                    for (var u = 0; u < coeffs.GetLength(1); u++)
+                    for (var u = 0; u < width; u++)
                     {
-                        for (var v = 0; v < coeffs.GetLength(0); v++)
+                        for (var v = 0; v < height; v++)
                         {
-                            sum += BasisFunction(coeffs[u, v], u, v, x, y, coeffs.GetLength(0),
-                                       coeffs.GetLength(1)) *
+                            sum += BasisFunction(coeffs[u, v], u, v, x, y, height,
+                                       width) *
                                    Alpha(u) * Alpha(v);
                         }
                     }
