@@ -3,13 +3,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace JPEG.Images
 {
     class Matrix
     {
-        public readonly Pixel[,] Pixels;
         public readonly int Height;
+        public readonly Pixel[,] Pixels;
         public readonly int Width;
 
         public Matrix(int height, int width)
@@ -18,9 +19,16 @@ namespace JPEG.Images
             Width = width;
 
             Pixels = new Pixel[height, width];
+
+
+            // Parallel.For(0, width, j =>
+            // {
+            //     for (var i = 0; i < height; ++i)
+            //         Pixels[i, j] = new Pixel(0, 0, 0, PixelFormat.RGB);
+            // });
         }
 
-        public static unsafe explicit operator Matrix(Bitmap bmp)
+        public static explicit operator Matrix(Bitmap bmp)
         {
             // var height = bmp.Height - bmp.Height % 8;
             // var width = bmp.Width - bmp.Width % 8;
@@ -63,7 +71,7 @@ namespace JPEG.Images
             return matrix;
         }
 
-        public static unsafe explicit operator Bitmap(Matrix matrix)
+        public static explicit operator Bitmap(Matrix matrix)
         {
             var bmp = new Bitmap(matrix.Width, matrix.Height);
             // var data = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), ImageLockMode.ReadOnly,
