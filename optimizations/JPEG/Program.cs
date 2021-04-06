@@ -134,6 +134,7 @@ namespace JPEG
 		private static double[,] GetSubMatrix(Matrix matrix, int yOffset, int yLength, int xOffset, int xLength, Func<Pixel, double> componentSelector)
 		{
 			var result = new double[yLength, xLength];
+			
 			for(var j = 0; j < yLength; j++)
 				for(var i = 0; i < xLength; i++)
 					result[j, i] = componentSelector(matrix.Pixels[yOffset + j, xOffset + i]);
